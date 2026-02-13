@@ -1,0 +1,27 @@
+services:
+  - type: web
+    name: energy-ingestion-api
+    runtime: docker
+    repo: https://github.com/ArvindGupta493/energy-ingestion-engine
+    plan: free
+    envVars:
+      - key: DB_HOST
+        fromService:
+          type: pserv
+          name: energy-ingestion-db
+          property: host
+      - key: DB_PORT
+        value: 5432
+      - key: DB_USERNAME
+        value: postgres
+      - key: DB_PASSWORD
+        value: postgres
+      - key: DB_DATABASE
+        value: postgres
+
+  - type: pserv
+    name: energy-ingestion-db
+    runtime: docker
+    repo: https://github.com/ArvindGupta493/energy-ingestion-engine
+    dockerfilePath: ./Dockerfile.postgres  # Create this
+    plan: free
